@@ -20,9 +20,6 @@ setup(
     description='Provides a connection to a Cassandra cluster in a Flask app',
     long_description=__doc__,
     py_modules=['flask_cassandra'],
-    # if you would be using a package instead use packages instead
-    # of py_modules:
-    # packages=['flask_sqlite3'],
     zip_safe=False,
     include_package_data=True,
     platforms='any',
