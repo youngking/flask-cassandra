@@ -29,11 +29,12 @@ app = Flask(__name__)
 cassandra = CassandraCluster()
 
 app.config['CASSANDRA_NODES'] = ['cassandra-c1.terbiumlabs.com']  # can be a string or list of nodes
+app.config['CASSANDRA_KEYSPACE'] = 'pythonista' # default keyspace
+
 
 @app.route("/cassandra_test")
 def cassandra_test():
-    session = cassandra.connect()
-    session.set_keyspace("monty_python")
+    session = cassandra.connect("monty_python") # connect to the monty_python keyspace, it not specified will use the default keyspace.
     cql = "SELECT * FROM sketches LIMIT 1"
     r = session.execute(cql)
     return str(r[0])

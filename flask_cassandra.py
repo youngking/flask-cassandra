@@ -50,7 +50,7 @@ class CassandraCluster(object):
         else:
             app.teardown_request(self.teardown)
 
-    def connect(self):
+    def connect(self, keyspace=None):
         log.debug("Connecting to CASSANDRA NODES {}".format(current_app.config['CASSANDRA_NODES']))
         if self.cluster is None:
             if isinstance(current_app.config['CASSANDRA_NODES'], (list, tuple)):
@@ -60,7 +60,9 @@ class CassandraCluster(object):
             else:
                 raise TypeError("CASSANDRA_NODES must be defined as a list, tuple, string, or unicode object.")
 
-        online_cluster = self.cluster.connect()
+        keyspace = keyspace or current_app.config.get('CASSANDRA_KEYSPACE', None)
+
+        online_cluster = self.cluster.connect(keyspace)
         return online_cluster
 
     def teardown(self, exception):
