@@ -50,6 +50,14 @@ class CassandraCluster(object):
         else:
             app.teardown_request(self.teardown)
 
+    def init_cluster(self, *args, **kwargs):
+        """Allow use custom cluster.
+        >>> cassandra = CassandraCluster().init_cluster(["127.0.0.1"], control_connection_timeout=5)
+        >>> cassandra.connect("monty_python")
+        """
+        self.cluster = Cluster(*args, **kwargs)
+        return self
+
     def connect(self, keyspace=None):
         log.debug("Connecting to CASSANDRA NODES {}".format(current_app.config['CASSANDRA_NODES']))
         if self.cluster is None:
